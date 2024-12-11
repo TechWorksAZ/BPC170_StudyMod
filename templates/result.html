@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if is_correct %}
+        <h2 class="result correct">Correct!</h2>
+        {% else %}
+        <h2 class="result incorrect">Incorrect</h2>
+        <p class="correct-answers-title">The correct answers are:</p>
+        <ul class="correct-answers">
+            {% for answer in correct_answers %}
+            <li>{{ answer }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="/question" class="btn">Next Question</a>
+    </div>
+</body>
+</html>

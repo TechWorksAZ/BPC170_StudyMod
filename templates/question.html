@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="question-box">
+            <!-- Left-aligned Question Text -->
+            <div class="question-text">
+                <h2>{{ question.question|safe }}</h2>
+            </div>
+        
+            <!-- Centered Image -->
+            {% if question.image_url %}
+            <img src="{{ url_for('static', filename=question.image_url.split('static/')[1]) }}" alt="Question Image" class="question-image">
+            {% endif %}
+        
+            <!-- Centered Answer Options Container -->
+            <form action="/check_answer" method="post">
+                <input type="hidden" name="question_id" value="{{ question.id }}">
+                <div class="answers-container">
+                    <div class="answers">
+                        {% for choice in question.choices.split('|') %}
+                        <label class="answer-option">
+                            <input type="checkbox" name="answers" value="{{ choice }}">
+                            {{ choice }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+        
+                <!-- Centered Submit Button -->
+                <div class="submit-container">
+                    <button class="btn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
