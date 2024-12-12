@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Results</title>
+    <style>
+        .progress-bar {
+            width: 100%;
+            background-color: #f4f4f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+            height: 30px;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            width: {{ percentage }}%;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            transition: width 0.5s ease;
+        }
+
+        .results-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .results-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <h1 class="results-title">Final Results</h1>
+        <p>You answered {{ correct }} out of {{ total }} questions correctly!</p>
+        <div class="progress-bar">
+            <div class="progress-bar-inner">{{ percentage }}%</div>
+        </div>
+        <div class="button-container">
+            <a href="/reset" class="btn">Try Again</a>
+        </div>
+    </div>
+</body>
+</html>

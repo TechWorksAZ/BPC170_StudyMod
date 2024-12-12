@@ -32,10 +32,21 @@
                 </div>
         
                 <!-- Centered Submit Button -->
-                <div class="submit-container">
+                <div class="button-container">
                     <button class="btn" type="submit">Submit</button>
                 </div>
+                <!-- Progress Section -->
+                <div class="progress-container">
+                    <p>Question {{ current_question_number }} of {{ total_questions }}</p>
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner" style="width: {{ progress_percentage }}%;">
+                            {{ progress_percentage }}%
+                        </div>
+                    </div>
+                    <p>{{ questions_left }} Question{{ "s" if questions_left != 1 else "" }} Remaining</p>
+                </div>
             </form>
+            </div>
         </div>
     </div>
 </body>
