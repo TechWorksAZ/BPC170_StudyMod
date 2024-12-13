@@ -66,7 +66,10 @@ def check_answer():
     question = Question.query.get(question_id)
 
     # Check if the selected answers match the correct answers
-    correct_answers = question.correct_answers.split("|")
+    correct_answers = [answer.strip().lower() for answer in question.correct_answers.split("|")]
+    selected_answers = [answer.strip().lower() for answer in selected_answers]
+
+    # Determine if the answers are correct
     is_correct = set(selected_answers) == set(correct_answers)
 
     # Initialize session variables if they don't exist
@@ -89,7 +92,7 @@ def check_answer():
         return render_template(
             "result.html",  # Updated template name
             is_correct=is_correct,
-            correct_answers=correct_answers,
+            correct_answers=question.correct_answers.split("|"),
             next_question_url="/question",
         )
     else:
