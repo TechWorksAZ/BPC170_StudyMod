@@ -42,8 +42,10 @@ An interactive quiz application for studying BPC170 course material with module-
    - Connect your GitHub repository: `TechWorksAZ/BPC170_StudyMod`
 
 2. **Configure Build Settings:**
-   - **Build Command:** `pip install -r requirements.txt && python data/populate_db.py`
+   - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `gunicorn run:app`
+   
+   **Note:** The database will be automatically populated on first startup by `run.py`. No need to run `populate_db.py` during the build.
 
 3. **Environment Variables (Optional but Recommended):**
    - Add `SECRET_KEY` environment variable with a secure random string
