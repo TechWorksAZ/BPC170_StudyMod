@@ -10,9 +10,14 @@ app = Flask(
 )
 
 # Configure the database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/questions.db'  # Database path
+# Use instance folder for database (works on both local and Render)
+basedir = os.path.abspath(os.path.dirname(__file__))
+instance_path = os.path.join(basedir, '..', 'instance')
+os.makedirs(instance_path, exist_ok=True)
+database_path = os.path.join(instance_path, 'questions.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{database_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress warning
-app.secret_key = "your_secret_key"  # Required for session management
+app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key_change_in_production')  # Required for session management
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
