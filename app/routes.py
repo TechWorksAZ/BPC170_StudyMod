@@ -3,6 +3,19 @@ from random import choice
 from app import app, db
 from app.models import Question
 
+# Module names mapping
+MODULE_NAMES = {
+    2: "Installing Motherboards & Connectors",
+    3: "Installing System Devices",
+    4: "Troubleshooting PC Hardware",
+    5: "Comparing Local Networking Hardware",
+    6: "Configuring Addressing & Internet Connections",
+    7: "Supporting Network Services",
+    8: "Summarizing Virtualization & Cloud Concepts",
+    9: "Supporting Mobile Devices",
+    10: "Supporting Print Devices"
+}
+
 # Home Page Route
 @app.route('/')
 def index():
@@ -12,16 +25,49 @@ def index():
     session.pop("current_question_number", None)
     session.pop("total_questions", None)
     session.pop("correct_answers", None)
+    session.pop("selected_modules", None)
 
-    return render_template('index.html')
+    # Get all unique modules from the database
+    modules = sorted([m[0] for m in db.session.query(Question.module).distinct().all()])
+    
+    # Create list of module info with names
+    modules_with_names = [{"number": m, "name": MODULE_NAMES.get(m, f"Module {m}")} for m in modules]
+    
+    return render_template('index.html', modules=modules_with_names, module_names=MODULE_NAMES)
 
 
 # Question Route
-@app.route('/question', methods=["GET"])
+@app.route('/question', methods=["GET", "POST"])
 def question():
+    # Handle module selection from POST request
+    if request.method == "POST":
+        selected_modules = request.form.getlist("modules")
+        if not selected_modules:
+            # No modules selected, redirect back to index with error message
+            modules = sorted([m[0] for m in db.session.query(Question.module).distinct().all()])
+            modules_with_names = [{"number": m, "name": MODULE_NAMES.get(m, f"Module {m}")} for m in modules]
+            return render_template('index.html', modules=modules_with_names, module_names=MODULE_NAMES, error="Please select at least one module.")
+        
+        # Convert to integers and store in session
+        selected_modules = [int(m) for m in selected_modules]
+        session["selected_modules"] = selected_modules
+        
+        # Get question IDs for selected modules
+        questions = Question.query.filter(Question.module.in_(selected_modules)).all()
+        session["all_question_ids"] = [q.id for q in questions]
+        session["answered_questions"] = []
+        session["current_question_number"] = 0
+        session["total_questions"] = 0
+        session["correct_answers"] = 0
+    
+    # Check if modules are selected
+    if "selected_modules" not in session or not session["selected_modules"]:
+        return redirect("/")
+    
     # Initialize all session variables if not already present
     if "all_question_ids" not in session:
-        session["all_question_ids"] = [q.id for q in Question.query.all()]
+        # Fallback: if no modules selected, redirect to index
+        return redirect("/")
     if "answered_questions" not in session:
         session["answered_questions"] = []  # Track answered questions
     if "current_question_number" not in session:
@@ -113,6 +159,8 @@ def reset():
     session.pop("answered_questions", None)
     session.pop("total_questions", None)
     session.pop("correct_answers", None)
+    session.pop("selected_modules", None)
+    session.pop("current_question_number", None)
     return redirect("/")
 
 # Final Results Route

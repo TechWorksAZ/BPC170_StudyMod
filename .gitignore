@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/questions.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+usage_log.txt
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+possiblyIncorrect.txt
+
+# Documentation files (except README.md)
+*.md
+!README.md
+
+# Source question files (keep local but don't commit)
+data/all_questions.txt
+
+# Test files
+test.txt
+static/test.txt
+
+# Old/backup files
+*_old.*
+*_backup.*
+routes_old.py
+
+# Processing scripts (one-time use - already processed questions)
+# Keep populate_db.py as it's needed to load questions into database
+data/process_*.py
+data/create_*.py
+data/add_*.py
+data/diagnose_*.py
+data/fix_*.py
+data/import_*.py
+data/parse_*.py
+data/generate_*.py
+
+# OS files
+Thumbs.db
+.DS_Store
+

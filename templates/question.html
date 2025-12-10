@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Question</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question {{ current_question_number }} - BPC170 Study Mod</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
     <div class="container">
         <div class="question-box">
-            <!-- Left-aligned Question Text -->
+            <!-- Question Text -->
             <div class="question-text">
                 <h2>{{ question.question|safe }}</h2>
             </div>
         
-            <!-- Centered Image -->
+            <!-- Question Image -->
             {% if question.image_url %}
             <img src="{{ url_for('static', filename=question.image_url.split('static/')[1]) }}" alt="Question Image" class="question-image">
             {% endif %}
         
-            <!-- Centered Answer Options Container -->
+            <!-- Answer Options -->
             <form action="/check_answer" method="post">
                 <input type="hidden" name="question_id" value="{{ question.id }}">
                 <div class="answers-container">
@@ -25,16 +28,17 @@
                         {% for choice in question.choices.split('|') %}
                         <label class="answer-option">
                             <input type="checkbox" name="answers" value="{{ choice }}">
-                            {{ choice }}
+                            <span>{{ choice }}</span>
                         </label>
                         {% endfor %}
                     </div>
                 </div>
         
-                <!-- Centered Submit Button -->
+                <!-- Submit Button -->
                 <div class="button-container">
-                    <button class="btn" type="submit">Submit</button>
+                    <button class="btn" type="submit">Submit Answer</button>
                 </div>
+                
                 <!-- Progress Section -->
                 <div class="progress-container">
                     <p>Question {{ current_question_number }} of {{ total_questions }}</p>
@@ -46,7 +50,6 @@
                     <p>{{ questions_left }} Question{{ "s" if questions_left != 1 else "" }} Remaining</p>
                 </div>
             </form>
-            </div>
         </div>
     </div>
 </body>

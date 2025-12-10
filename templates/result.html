@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Result</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - BPC170 Study Mod</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        {% if is_correct %}
-        <h2 class="result correct">Correct!</h2>
-        {% else %}
-        <h2 class="result incorrect">Incorrect</h2>
-        <p class="correct-answers-title">The correct answers are:</p>
-        <ul class="correct-answers">
-            {% for answer in correct_answers %}
-            <li>{{ answer }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <div class="button-container">
-            <a href="/question" class="btn">Next Question</a>
+        <div class="card">
+            {% if is_correct %}
+            <div class="result correct">✓ Correct!</div>
+            <p class="text-center">Great job! You got it right.</p>
+            {% else %}
+            <div class="result incorrect">✗ Incorrect</div>
+            <p class="correct-answers-title">The correct answer{{ "s" if correct_answers|length > 1 else "" }} {{ "are" if correct_answers|length > 1 else "is" }}:</p>
+            <ul class="correct-answers">
+                {% for answer in correct_answers %}
+                <li>{{ answer }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="button-container">
+                <a href="/question" class="btn">Next Question</a>
+            </div>
         </div>
     </div>
 </body>
